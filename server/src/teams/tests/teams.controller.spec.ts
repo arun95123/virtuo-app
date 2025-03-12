@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TeamsController } from '../teams.controller';
 import { TeamsService } from '../teams.service';
 import { TeamDto } from '../dto/team.dto';
+import { CreateTeamDto } from '../dto/create-team.dto';
 
 describe('TeamsController', () => {
   let teamsController: TeamsController;
@@ -43,6 +44,28 @@ describe('TeamsController', () => {
       jest.spyOn(teamsService, 'getTeams').mockResolvedValue(result);
 
       expect(await teamsController.getTeams()).toBe(result);
+    });
+  });
+  describe('createTeam', () => {
+    it('should create and return a team', async () => {
+      const createTeamDto: CreateTeamDto = {
+        name: 'New Team',
+        abbr: 'NTM',
+        city: 'New City',
+        stadium: 'New Stadium',
+      };
+
+      const result: TeamDto = {
+        id: 2,
+        name: 'New Team',
+        abbr: 'NTM',
+        city: 'New City',
+        stadium: 'New Stadium',
+      };
+
+      jest.spyOn(teamsService, 'createTeam').mockResolvedValue(result);
+
+      expect(await teamsController.createTeam(createTeamDto)).toBe(result);
     });
   });
 });

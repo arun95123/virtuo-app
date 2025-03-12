@@ -4,6 +4,8 @@ import { TeamsCacheService } from '../teams.cache.service';
 import { ConfigService } from '@nestjs/config';
 import { InternalServerErrorException } from '@nestjs/common';
 import axios from 'axios';
+import { CreateTeamDto } from '../dto/create-team.dto';
+import { TeamExisitsException } from '../exceptions/teamExistsException';
 
 jest.mock('axios');
 
@@ -21,6 +23,7 @@ describe('TeamsService', () => {
           useValue: {
             getAllTeams: jest.fn(),
             setTeams: jest.fn(),
+            createTeam: jest.fn(),
           },
         },
         {
@@ -129,6 +132,67 @@ describe('TeamsService', () => {
         .mockRejectedValue(new Error('Error'));
 
       await expect(service.getTeams()).rejects.toThrow(
+        InternalServerErrorException,
+      );
+    });
+  });
+  describe('createTeam', () => {
+    it('should create a new team', async () => {
+      const newTeam: CreateTeamDto = {
+        name: 'Team C',
+        city: 'City C',
+        abbr: 'C',
+        stadium: 'Stadium C',
+      };
+      const createdTeam = {
+        id: 1,
+        ...newTeam,
+      };
+
+      jest.spyOn(service, 'getTeams').mockResolvedValue([]);
+      jest
+        .spyOn(teamsCacheService, 'createTeam')
+        .mockResolvedValue(createdTeam);
+
+      const result = await service.createTeam(newTeam);
+      expect(result).toEqual(createdTeam);
+    });
+
+    it('should throw TeamExisitsException if team already exists', async () => {
+      const newTeam: CreateTeamDto = {
+        name: 'Team A',
+        city: 'City A',
+        abbr: 'A',
+        stadium: 'Stadium A',
+      };
+      const existingTeams = [
+        {
+          id: 1,
+          name: 'Team A',
+          city: 'City A',
+          abbr: 'A',
+          stadium: 'Stadium A',
+        },
+      ];
+
+      jest.spyOn(service, 'getTeams').mockResolvedValue(existingTeams);
+
+      await expect(service.createTeam(newTeam)).rejects.toThrow(
+        TeamExisitsException,
+      );
+    });
+
+    it('should throw InternalServerErrorException if an error occurs', async () => {
+      const newTeam: CreateTeamDto = {
+        name: 'Team D',
+        city: 'City D',
+        abbr: 'D',
+        stadium: 'Stadium D',
+      };
+
+      jest.spyOn(service, 'getTeams').mockRejectedValue(new Error('Error'));
+
+      await expect(service.createTeam(newTeam)).rejects.toThrow(
         InternalServerErrorException,
       );
     });

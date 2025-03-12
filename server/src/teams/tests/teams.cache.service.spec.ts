@@ -3,6 +3,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { TeamsCacheService } from '../teams.cache.service';
 import { TeamDto } from '../dto/team.dto';
+import { CreateTeamDto } from '../dto/create-team.dto';
 
 describe('TeamsCacheService', () => {
   let service: TeamsCacheService;
@@ -73,6 +74,39 @@ describe('TeamsCacheService', () => {
       const result = await service.setTeams(teams);
       expect(result).toBeNull();
       expect(cacheManager.set).toHaveBeenCalledWith('teams', teams);
+    });
+  });
+  describe('createTeam', () => {
+    it('should create a new team and add it to the cache', async () => {
+      const createTeamDto: CreateTeamDto = {
+        name: 'Team B',
+        abbr: 'B',
+        city: 'City B',
+        stadium: 'Stadium B',
+      };
+      const existingTeams: TeamDto[] = [
+        {
+          id: 1,
+          name: 'Team A',
+          abbr: 'A',
+          city: 'City A',
+          stadium: 'Stadium A',
+        },
+      ];
+      const newTeam: TeamDto = {
+        id: 2,
+        ...createTeamDto,
+      };
+
+      jest.spyOn(cacheManager, 'get').mockResolvedValue(existingTeams);
+      jest.spyOn(cacheManager, 'set').mockResolvedValue(newTeam);
+
+      const result = await service.createTeam(createTeamDto);
+      expect(result).toEqual(newTeam);
+      expect(cacheManager.set).toHaveBeenCalledWith('teams', [
+        ...existingTeams,
+        newTeam,
+      ]);
     });
   });
 });

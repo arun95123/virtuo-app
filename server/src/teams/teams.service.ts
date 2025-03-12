@@ -9,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { TeamDto } from './dto/team.dto';
 import { TeamsCacheService } from './teams.cache.service';
 import { Team } from './interfaces/teams.api.interface';
+import { CreateTeamDto } from './dto/create-team.dto';
+import { TeamExisitsException } from './exceptions/teamExistsException';
 
 @Injectable()
 export class TeamsService implements OnApplicationBootstrap {
@@ -54,6 +56,22 @@ export class TeamsService implements OnApplicationBootstrap {
       return teams ? teams : [];
     } catch (e) {
       console.error(e);
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async createTeam(newTeam: CreateTeamDto): Promise<TeamDto> {
+    try {
+      const teams = await this.getTeams();
+      if (teams.find((t) => t.name === newTeam.name)) {
+        throw new TeamExisitsException();
+      }
+      return await this.teamsCacheService.createTeam(newTeam);
+    } catch (e) {
+      console.error(e);
+      if (e instanceof TeamExisitsException) {
+        throw e;
+      }
       throw new InternalServerErrorException();
     }
   }
