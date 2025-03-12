@@ -13,4 +13,8 @@ export class TeamsCacheService {
   async getAllTeams(): Promise<TeamDto[] | null> {
     return await this.cacheManager.get<TeamDto[]>(this.cacheKey);
   }
+
+  async setTeams(teams: TeamDto[]): Promise<TeamDto[] | null> {
+    return await this.cacheManager.set(this.cacheKey, teams);
+  }
 }
