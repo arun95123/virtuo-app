@@ -1,33 +1,31 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import TeamList from './components/TeamList'
+import CreateTeam from './components/CreateTeam'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [currentTab, setTab] = useState<'view' | 'create'>('view')
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>View and Manage Teams</h1>
+      <div className='toggler'>
+        <div 
+          className={`toggler--option ${currentTab === 'view' ? 'toggler--option--selected' : ''}`}
+          onClick={() => setTab('view')}
+        >
+          View
+        </div>
+        <div 
+          className={`toggler--option ${currentTab === 'create' ? 'toggler--option--selected' : ''}`}
+          onClick={() => setTab('create')}
+        >
+          Create
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className='content'>
+        {currentTab === 'view' ? <TeamList /> : <CreateTeam />}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
