@@ -1,6 +1,7 @@
 import {
   Injectable,
   InternalServerErrorException,
+  UnprocessableEntityException,
   OnApplicationBootstrap,
 } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
@@ -72,7 +73,7 @@ export class TeamsService implements OnApplicationBootstrap {
       if (e instanceof TeamExisitsException) {
         throw e;
       }
-      throw new InternalServerErrorException();
+      throw new UnprocessableEntityException();
     }
   }
 }
