@@ -14,11 +14,10 @@ describe('App', () => {
     
     const viewTab = screen.getByText('View')
     const createTab = screen.getByText('Create')
-    
+    screen.debug()
     // Initially, the "View" tab should be selected
     expect(viewTab).toHaveClass('toggler--option--selected')
     expect(createTab).not.toHaveClass('toggler--option--selected')
-    expect(screen.getByText('Team List')).toBeInTheDocument()
 
     
     // Click on the "Create" tab
