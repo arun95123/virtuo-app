@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TeamsService } from '../teams.service';
 import { TeamsCacheService } from '../teams.cache.service';
 import { ConfigService } from '@nestjs/config';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException, UnprocessableEntityException } from '@nestjs/common';
 import axios from 'axios';
 import { CreateTeamDto } from '../dto/create-team.dto';
 import { TeamExisitsException } from '../exceptions/teamExistsException';
@@ -193,7 +193,7 @@ describe('TeamsService', () => {
       jest.spyOn(service, 'getTeams').mockRejectedValue(new Error('Error'));
 
       await expect(service.createTeam(newTeam)).rejects.toThrow(
-        InternalServerErrorException,
+        UnprocessableEntityException,
       );
     });
   });
