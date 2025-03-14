@@ -5,10 +5,9 @@ import './TeamCard.css'
 const TeamCard: React.FC<Team> = ({name, stadium, abbr, city}) => {
     return (
         <div className='team-card'>
-            <p>{name}</p>
-            <p>{stadium}</p>
-            <p>{abbr}</p>
-            <p>{city}</p>
+            <b>{`${name} (${abbr})`}</b>
+            <p>City: {city}</p>
+            <p>Stadium: {stadium}</p>
         </div>
     )
 }

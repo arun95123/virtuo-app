@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { getTeams } from "../../services/teamService"
 import { Team } from "../../types/team"
 import TeamCard from "./TeamCard"
+import './TeamList.css'
 
 const TeamList = () => {
 
@@ -35,11 +36,11 @@ const TeamList = () => {
     }
     
     return (
-        <>
+        <div className="team-list">
             {teams.map((team) => (
                 <TeamCard key={team.id} {...team}/>
             ))}
-        </>
+        </div>
 
     )
 }

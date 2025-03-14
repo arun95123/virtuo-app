@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Input from './Input'
 import { TeamForm } from '../../types/team'
 import { createTeam } from '../../services/teamService'
+import './CreateTeam.css'
 
 interface CreateTeamProps {
     onTeamCreation: () => void
@@ -79,12 +80,13 @@ const CreateTeam:React.FC<CreateTeamProps> = ({ onTeamCreation, setToastContent 
     }
 
     return (
-        <>
-            <h3>Add a New Team</h3>
-            <h6>Fill in details to add new team</h6>
+        <div className='team-form'>
+            <div>Add a New Team</div>
+            <div>Fill in details to add new team</div>
             <form onSubmit={ handleSubmit }>
                 <Input 
                     fieldName='name'
+                    label='Name'
                     onchange={handleChange}
                     placeholder='name'
                     value={formData.name}
@@ -92,6 +94,7 @@ const CreateTeam:React.FC<CreateTeamProps> = ({ onTeamCreation, setToastContent 
                 />
                 <Input
                     fieldName='abbr'
+                    label='Abbr'
                     onchange={handleChange}
                     placeholder='abbr'
                     value={formData.abbr}
@@ -99,6 +102,7 @@ const CreateTeam:React.FC<CreateTeamProps> = ({ onTeamCreation, setToastContent 
                 />
                 <Input
                     fieldName='city'
+                    label='City'
                     onchange={handleChange}
                     placeholder='city'
                     value={formData.city}
@@ -106,6 +110,7 @@ const CreateTeam:React.FC<CreateTeamProps> = ({ onTeamCreation, setToastContent 
                 />
                 <Input
                     fieldName='stadium'
+                    label='Stadium'
                     onchange={handleChange}
                     placeholder='stadium'
                     value={formData.stadium}
@@ -113,7 +118,7 @@ const CreateTeam:React.FC<CreateTeamProps> = ({ onTeamCreation, setToastContent 
                 />
                 <button type='submit' disabled={isSubmitting} >CREATE</button>
             </form>
-        </>
+        </div>
     )
 }
 

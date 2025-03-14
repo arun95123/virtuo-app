@@ -2,4 +2,33 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.form-input label {
+    text-align: left;
+    margin-bottom: 2px
+}
+
+.form-input input {
+    height: 16px;
+    border: 1px solid gray;
+    border-radius: 7px;
+    padding: 10px;
+    border-color: grey;
+}
+
+.form-input--error input{
+    border-color: red;
+}
+
+.form-input--error label{
+    color: red
+}
+
+.input--error {
+    text-align: left;
+    color: red;
+    font-size: 12px;
 }

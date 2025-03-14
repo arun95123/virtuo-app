@@ -1,5 +1,20 @@
 .team-card {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 2px solid whitesmoke;
+    padding: 10px;
+    gap: 5px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 260px;
+    height: 100px;
+}
+
+.team-card b {
+    text-align: left;
+}
+
+.team-card p {
+    margin: 0;
+    text-align: left;
 }
