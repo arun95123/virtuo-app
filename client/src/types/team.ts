@@ -6,11 +6,16 @@ export type Team = {
     stadium: string;
 }
 
-export type TeamsResponse = {
+export type ApiResponse<T> = {
     isSuccess: true,
-    data: {
-        teams: Team[]
-    }
+    data: T
 } | {
     isSuccess: false
+}
+
+export type TeamForm = {
+    name: string,
+    city: string,
+    abbr: string,
+    stadium: string
 }

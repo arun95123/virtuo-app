@@ -16,7 +16,7 @@ const TeamList = () => {
         const getData = async () => {
           const response = await getTeams()
           if (response.isSuccess) {
-            setTeams(response.data.teams)
+            setTeams(response.data)
           } else {
             setError(true)
           }
