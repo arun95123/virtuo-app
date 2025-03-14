@@ -1,10 +1,30 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import TeamList from './components/TeamList'
 import CreateTeam from './components/CreateTeam'
 import './App.css'
 
 const App = () => {
   const [currentTab, setTab] = useState<'view' | 'create'>('view')
+  const [toast, setToast] = useState<string>('')
+  const [showToast, setShowToast] = useState(false)
+  const timer = useRef<NodeJS.Timeout>(null)
+
+
+  const setToastContent = (content: string) => {
+    setToast(content)
+    setShowToast(true)
+    if(timer.current){
+      clearTimeout(timer.current)
+    }
+    timer.current = setTimeout(() => {
+      setShowToast(false)
+    }, 2000)
+    
+  }
+
+  const onTeamCreation = () => {
+    setTab('view')
+  }
 
   return (
     <>
@@ -24,8 +44,9 @@ const App = () => {
         </div>
       </div>
       <div className='content'>
-        {currentTab === 'view' ? <TeamList /> : <CreateTeam />}
+        {currentTab === 'view' ? <TeamList /> : <CreateTeam onTeamCreation={onTeamCreation} setToastContent={setToastContent}/>}
       </div>
+      {showToast ? <div className='toast'>{toast}</div> : <></>}
     </>
   )
 }

@@ -27,4 +27,15 @@
   color: black;
 }
 
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: ghostwhite;
+  padding: 10px 25px;
+  border-radius: 14px;
+  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6
+}
+
 

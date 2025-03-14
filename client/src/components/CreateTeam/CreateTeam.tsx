@@ -1,9 +1,14 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Input from './Input'
 import { TeamForm } from '../../types/team'
 import { createTeam } from '../../services/teamService'
 
-const CreateTeam = () => {
+interface CreateTeamProps {
+    onTeamCreation: () => void
+    setToastContent: (content: string) => void
+}
+
+const CreateTeam:React.FC<CreateTeamProps> = ({ onTeamCreation, setToastContent }) => {
     const [formData, setFormData] = useState<TeamForm>({
         name: '',
         city: '',
@@ -64,12 +69,13 @@ const CreateTeam = () => {
         if(!validateForm()) return
         setSubmitting(true)
         const response = await createTeam(formData)
-        if(response.isSuccess){
-            console.log('Success')
-        }else {
-            console.log('Failure')
-        }
         setSubmitting(false)
+        if(response.isSuccess){
+            onTeamCreation()
+            setToastContent('Team created Successfully')
+        }else {
+            setToastContent('Error creating Team')
+        }
     }
 
     return (
