@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { ApiResponse, Team, TeamForm } from "../types/team";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
 export async function getTeams(): Promise<ApiResponse<Team[]>>{
     try {
-        //TODO move to env
-        const response = await axios.get<Team[]>('http://localhost:3000/api/teams')
+        const response = await axios.get<Team[]>(`${apiBaseUrl}/api/teams`)
+        console.log('API RESPONSE', response)
         return {
             isSuccess: true,
             data: response.data
@@ -19,8 +21,7 @@ export async function getTeams(): Promise<ApiResponse<Team[]>>{
 
 export async function createTeam(formData: TeamForm): Promise<ApiResponse<Team>>{
     try {
-        //TODO move to env
-        const response = await axios.post<Team>('http://localhost:3000/api/teams', formData)
+        const response = await axios.post<Team>(`${apiBaseUrl}/api/teams`, formData)
         return {
             isSuccess: true,
             data: response.data   
